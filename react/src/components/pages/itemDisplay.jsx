@@ -181,7 +181,7 @@ export default function ItemDisplay() {
       // Optional: toast message or update UI
     } catch (error) {
       console.error("Failed to rate item:", error.response?.data || error.message);
-      alert(error.response?.data || error.message);
+      alert(error.response.data?.message);
       // Optional: toast error message
     }
   }

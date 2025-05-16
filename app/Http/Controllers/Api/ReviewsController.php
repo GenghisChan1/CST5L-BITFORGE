@@ -45,7 +45,7 @@ class ReviewsController extends Controller
 
                 return response()->json([
                     'success' => false,
-                    'message' => 'You must purchase this item before rating or commenting.',
+                    'message' => 'You must purchase this item before rating.',
                 ], 403); // 403 is more appropriate for "forbidden" access
             }
 

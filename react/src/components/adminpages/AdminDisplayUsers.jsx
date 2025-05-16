@@ -1,5 +1,6 @@
     import { Link } from "react-router-dom";
     import placeholderImg from './../../assets/placeholder-profile_3_5.png';
+    import adminimg from './../../assets/Untitled.png';
     import usersDashboard from './adminUsersDashboard.module.scss';
 
     export default function AdminUsersDashboard({
@@ -45,11 +46,9 @@
 
                     <div className={usersDashboard.imgwrap}>
                       <img
-                        src={
-                          user.profile_picture
-                            ? `${import.meta.env.VITE_API_BASE_URL}${user.profile_picture}`
-                            : placeholderImg
-                        }
+                        src={user.role?.toLowerCase() === 'admin' ? adminimg : user.profile_picture ? 
+                          `${import.meta.env.VITE_API_BASE_URL}${user.profile_picture}`
+                          : placeholderImg}
                         alt="user"
                       />
                     </div>
@@ -64,12 +63,6 @@
                       <div className={usersDashboard.emailwrap}>
                         <p>{user.email}</p>
                       </div>
-                    </div>
-
-                    <div className={usersDashboard.deletewrap}>
-                      {user.role !== 'admin' && (
-                        <button onClick={(e) => onDelete(e, user.user_id)}>Delete</button>
-                      )}
                     </div>
                   </div>
                 ))}

@@ -193,12 +193,13 @@ class ItemsController extends Controller
         // Load comments with user info
         $comments = Comment::where('item_id', $item->id)
             ->with(['user' => function ($query) {
-                $query->select('id', 'username', 'role');
+                $query->select('id', 'username', 'role', 'profile_picture');
             }])
             ->orderBy('created_at', 'desc')  // <-- This line ensures newest to oldest
             ->get()
             ->map(function ($comment) {
                 return [
+                    'profile_picture' =>$comment->user->profile_picture ?? null,
                     'user_id' => $comment->user->id ?? null,
                     'username' => $comment->user->username ?? null,
                     'role' => $comment->user->role ?? null,

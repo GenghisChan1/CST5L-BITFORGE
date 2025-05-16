@@ -20,6 +20,13 @@
   background-color: index.$territaryColor;
   color: index.$primaryFontColor;
 
+  >img {
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    margin: 3px;
+  }
+
   > h4 {
     margin: 2px 10px;
     font-family: index.$secondaryFont;

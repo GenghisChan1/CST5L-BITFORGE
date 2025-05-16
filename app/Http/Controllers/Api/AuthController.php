@@ -312,7 +312,7 @@ class AuthController extends Controller
             ->count('id');
 
         $total_sold = DB::table('purchase_receipts')
-            ->count('id');
+            ->sum('quantity');
 
         $total_earning = DB::table('purchase_receipts')
             ->sum('grand_total');

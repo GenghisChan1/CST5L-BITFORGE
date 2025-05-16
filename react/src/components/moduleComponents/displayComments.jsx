@@ -2,7 +2,8 @@ import { ChevronUp, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
 import { useGlobalContext } from '../context/globalContextProvider';
-
+import placeholderImg from './../../assets/placeholder-profile_3_5.png';
+import adminimg from './../../assets/Untitled.png';
 import comment from './displayComments.module.scss';
 
 export default function DisplayComments() {
@@ -16,6 +17,8 @@ export default function DisplayComments() {
       {item.comments?.map((cmnt, index)=>(
         <div key={index}>
           <div className={comment.username}>
+            <img src={cmnt.role?.toLowerCase() === 'admin' ? adminimg : cmnt.profile_picture ? `${import.meta.env.VITE_API_BASE_URL}${cmnt.profile_picture}`
+              : placeholderImg} alt="" />
             <h4>{cmnt.username}</h4>
             {cmnt.role?.toLowerCase() === "admin" && (
               <div className={comment.userrole}>
