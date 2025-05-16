@@ -73,6 +73,14 @@ Route::get('/user', function (Request $request) {
         )
         ->get();
 
+    $cart_items_quantity = DB::table('cart_items')
+        ->where('user_id', $user->id)
+            ->count();
+
+    $pending_items_quantity = DB::table('pending_orders')
+        ->where('user_id', $user->id)
+            ->count();
+
     return response()->json([
         'user' => [
             'profile_picture' => $user->profile_picture,
@@ -96,6 +104,8 @@ Route::get('/user', function (Request $request) {
             'cart_items' => $cartItems,
             'purchase_receipts' => $purchaseReceipts,
             'pending_orders' => $pendingOrders,
+            'cart_items_quantity' => $cart_items_quantity,
+            'pending_items_quantity' => $pending_items_quantity 
         ]
     ]);
 })->middleware('auth:sanctum');
@@ -115,6 +125,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/cart/{id}', [TransactionsController::class, 'deleteCart']);
     Route::post('/rate-item', [ReviewsController::class, 'RecordReviews']);
     Route::post('/comment-item', [ReviewsController::class, 'AddComment']);
+    Route::get('/display-admin-details', [AuthController::class, 'displayAdminDetails']);
 });
 
 Route::get('/populate-items', [PopulateController::class, 'populateItems']);

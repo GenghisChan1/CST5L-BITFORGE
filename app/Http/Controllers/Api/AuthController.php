@@ -305,4 +305,43 @@ class AuthController extends Controller
             'message' => "User with ID {$id} has been deleted successfully."
         ], 200);
     }
+
+    public function displayAdminDetails(Request $request) 
+    {
+        $total_items = DB::table('items')
+            ->count('id');
+
+        $total_sold = DB::table('purchase_receipts')
+            ->count('id');
+
+        $total_earning = DB::table('purchase_receipts')
+            ->sum('grand_total');
+
+        // Calculate average earnings per day
+        $first_purchase = DB::table('purchase_receipts')->min('created_at');
+        $last_purchase = DB::table('purchase_receipts')->max('created_at');
+
+        if ($first_purchase && $last_purchase && $total_earning > 0) {
+            $days = max(1, now()->diffInDays(\Carbon\Carbon::parse($first_purchase))); // Avoid division by zero
+            $average_earnings_perDay = $total_earning / $days;
+        } else {
+            $average_earnings_perDay = 0;
+        }
+
+        $total_users = DB::table('userstable')->count('id');
+
+        $total_pending_orders = DB::table('pending_orders')->count('id');
+
+        return response()->json([
+            'total_items' => $total_items,
+            'total_sold' => $total_sold,
+            'total_earning' => $total_earning,
+            'average_earnings_per_day' => round($average_earnings_perDay, 2),
+            'total_users' => $total_users,
+            'total_pending_orders' => $total_pending_orders
+        ]);
+        
+    }
+
+    
 }

@@ -10,7 +10,7 @@ import AdminUsersDashboard from "./AdminDisplayUsers";
 export default function AdminDashboard(){
   const { 
     user, 
-    adnminDetails,
+    adnminDetails, setAdnminDetails,
     displayItems, setDisplayItems,
     pendingOrders, setPendingOrders,
     displayUsers, setDisplayUsers } = useGlobalContext();
@@ -153,6 +153,16 @@ export default function AdminDashboard(){
     fetchPendingOrders(sortPendingOrdersBy, searchbypendingorders, searchPendingOrdersKeyword);
   }, [sortPendingOrdersBy, searchbypendingorders, searchPendingOrdersKeyword]);
 
+  useEffect(() => {
+    axiosClient.get('/display-admin-details')
+      .then(({ data }) => {
+        setAdnminDetails(data);
+      })
+      .catch((err) => {
+        console.error("Failed to load admin details:", err);
+      });
+  }, []);
+  
   async function fetchUsers(sort, username = "") {
     try {
       const params = { sortby: sort };
@@ -225,6 +235,8 @@ export default function AdminDashboard(){
     }
   }
   
+  
+
   console.log(user.purchase_receipts);
 
   return (
@@ -245,15 +257,15 @@ export default function AdminDashboard(){
             <div className={dashboard.detailswrap}>
               <div className={dashboard.overviewwrap}>
                 <div className={dashboard.left}> 
-                  <p>Total Items: {adnminDetails.total_items.toLocaleString()}</p>
-                  <p>Total Sold: {adnminDetails.total_sold.toLocaleString()}</p>
-                  <p>Total Earnings: PHP {adnminDetails.total_earnings.toLocaleString()}</p>
-                  <p>Average Earnings: PHP {adnminDetails.average_earnings_perDay.toLocaleString()} per day</p>
-                </div>
-                <div className={dashboard.right}>
-                  <p>Total Users: {adnminDetails.total_users.toLocaleString()}</p>
-                  <p>Total Pending Orders: {adnminDetails.total_pending_orders.toLocaleString()}</p>
-                </div>
+                <p>Total Items: {adnminDetails?.total_items?.toLocaleString?.() || 0}</p>
+                <p>Total Sold: {adnminDetails?.total_sold?.toLocaleString?.() || 0}</p>
+                <p>Total Earnings: PHP {adnminDetails?.total_earning?.toLocaleString?.() || 0}</p>
+                <p>Average Earnings: PHP {adnminDetails?.average_earnings_per_day?.toLocaleString?.() || 0} per day</p>
+              </div>
+              <div className={dashboard.right}>
+                <p>Total Users: {adnminDetails?.total_users?.toLocaleString?.() || 0}</p>
+                <p>Total Pending Orders: {adnminDetails?.total_pending_orders?.toLocaleString?.() || 0}</p>
+              </div>
               </div>
             </div>
           </section>
